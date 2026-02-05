@@ -17,7 +17,7 @@ class Message:
         self.message_id = data["message_id"]
         self.from_user = User(data["from"]) if data.get("from") else None
         self.chat = Chat(data["chat"]) if data.get("chat") else None
-        self.text = data.get("text")
+        self.text: str = data.get("text")
 
 
 class Update:

@@ -2,10 +2,24 @@ import os
 
 from dotenv import load_dotenv
 
-from simplegram import Updater
+from simplegram import Updater, Update, Bot
+from simplegram.handlers import CommandHandler
 
 
 load_dotenv()
 
+
+def start(update: Update, bot: Bot):
+    bot.send_message(chat_id=update.message.chat.id, text="Salom botga xush kelibsiz!")
+
+
+def help(update: Update, bot: Bot):
+    bot.send_message(chat_id=update.message.chat.id, text="Qanday yordam bera olaman?")
+
+
 updater = Updater(os.getenv("TOKEN"))
+
+updater.dispatcher.add_handler(CommandHandler(command="start", callback=start))
+updater.dispatcher.add_handler(CommandHandler(command="help", callback=help))
+
 updater.start_polling()

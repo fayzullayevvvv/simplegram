@@ -1,12 +1,14 @@
 import time
 
 from .bot import Bot
+from .dispatcher import Dispatcher
 
 
 class Updater:
     def __init__(self, token: str):
         self.token = token
         self.bot = Bot(self.token)
+        self.dispatcher = Dispatcher(self.bot)
         self.offset = None
         self.running = False
 
@@ -17,7 +19,7 @@ class Updater:
             updates = self.bot.get_updates(offset=self.offset)
 
             for update in updates:
-                print(update.update_id)
+                self.dispatcher.process_update(update)
 
                 self.offset = update.update_id + 1
 
